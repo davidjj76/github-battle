@@ -85,15 +85,15 @@ class Popular extends Component {
   }
 
   render() {
-    const { repos } = this.state;
+    const { repos, ...rest } = this.state;
     return (
       <div>
         <SelectLanguage 
-          {...this.state}
+          {...rest}
           onSelect={this.updateLanguage}
         />
         {repos
-          ? <RepoGrid {...this.state} />
+          ? <RepoGrid repos={repos} />
           : <p>Loading...</p>
         }
       </div>
