@@ -3,26 +3,23 @@ import PropTypes from 'prop-types';
 import api from '../utils/api';
 
 const SelectLanguage = ({
+  languages,
   selectedLanguage,
   onSelect 
-}) => {
-  const languages = ['All', 'Javascript', 'Ruby', 'Java', 'CSS', 'Python'];
-
-  return (
-    <ul className="languages">
-      {languages.map(lang => (
-        <li
-          style={lang === selectedLanguage 
-            ? { color: '#d0021b'} 
-            : null}
-          onClick={onSelect.bind(null, lang)}
-          key={lang}>
-          {lang}
-        </li>
-      ))}
-    </ul>
-  )    
-};
+}) => (
+  <ul className="languages">
+    {languages.map(lang => (
+      <li
+        style={lang === selectedLanguage 
+          ? { color: '#d0021b'} 
+          : null}
+        onClick={onSelect.bind(null, lang)}
+        key={lang}>
+        {lang}
+      </li>
+    ))}
+  </ul>
+);
 
 SelectLanguage.propTypes = {
   selectedLanguage: PropTypes.string.isRequired,
@@ -66,6 +63,7 @@ class Popular extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      languages: ['All', 'Javascript', 'Ruby', 'Java', 'CSS', 'Python'],
       selectedLanguage: 'All',
       repos: null
     };
@@ -87,14 +85,15 @@ class Popular extends Component {
   }
 
   render() {
+    const { repos } = this.state;
     return (
       <div>
-        <SelectLanguage
-          selectedLanguage={this.state.selectedLanguage}
+        <SelectLanguage 
+          {...this.state}
           onSelect={this.updateLanguage}
         />
-        {this.state.repos
-          ? <RepoGrid repos={this.state.repos} />
+        {repos
+          ? <RepoGrid {...this.state} />
           : <p>Loading...</p>
         }
       </div>
